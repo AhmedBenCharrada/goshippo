@@ -21,6 +21,7 @@ type Client interface {
 	Do(req *http.Request, v interface{}) (*http.Response, error)
 
 	Address() *AddressService
+	Parcel() *ParcelService
 }
 
 type service struct {
@@ -33,6 +34,7 @@ type client struct {
 	token   string
 
 	address *AddressService
+	parcel  *ParcelService
 }
 
 var defaultHTTPClient = &http.Client{Timeout: time.Second * 5}
@@ -57,12 +59,17 @@ func NewClient(token string, options ...ClientOption) (Client, error) {
 
 	svc := &service{client: client}
 	client.address = (*AddressService)(svc)
+	client.parcel = (*ParcelService)(svc)
 
 	return client, nil
 }
 
 func (c *client) Address() *AddressService {
 	return c.address
+}
+
+func (c *client) Parcel() *ParcelService {
+	return c.parcel
 }
 
 func (c *client) NewRequest(ctx context.Context, method, url string, body interface{}) (*http.Request, error) {
