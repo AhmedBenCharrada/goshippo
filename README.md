@@ -19,3 +19,10 @@ go get github.com/AhmedBenCharrada/goshippo
 ## Examples
 
 See [examples](./example/main.go) file.
+
+## Todos
+
+- [ ] integration tests.
+- [ ] Add batches API integration.
+- [ ] Add refund API integration.
+- [ ] Add manifest API integration.
