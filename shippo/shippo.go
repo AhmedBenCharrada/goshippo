@@ -19,6 +19,8 @@ const (
 type Client interface {
 	NewRequest(ctx context.Context, method, url string, body interface{}) (*http.Request, error)
 	Do(req *http.Request, v interface{}) (*http.Response, error)
+
+	Address() *AddressService
 }
 
 type service struct {
@@ -29,6 +31,8 @@ type client struct {
 	client  *http.Client
 	baseURL *url.URL
 	token   string
+
+	address *AddressService
 }
 
 var defaultHTTPClient = &http.Client{Timeout: time.Second * 5}
@@ -51,9 +55,14 @@ func NewClient(token string, options ...ClientOption) (Client, error) {
 		}
 	}
 
-	_ = &service{client: client}
+	svc := &service{client: client}
+	client.address = (*AddressService)(svc)
 
 	return client, nil
+}
+
+func (c *client) Address() *AddressService {
+	return c.address
 }
 
 func (c *client) NewRequest(ctx context.Context, method, url string, body interface{}) (*http.Request, error) {
