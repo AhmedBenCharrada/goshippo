@@ -23,6 +23,7 @@ type Client interface {
 	Address() *AddressService
 	Parcel() *ParcelService
 	Shipment() *ShipmentService
+	Rate() *RateService
 }
 
 type service struct {
@@ -37,6 +38,7 @@ type client struct {
 	address  *AddressService
 	parcel   *ParcelService
 	shipment *ShipmentService
+	rate     *RateService
 }
 
 var defaultHTTPClient = &http.Client{Timeout: time.Second * 5}
@@ -63,6 +65,7 @@ func NewClient(token string, options ...ClientOption) (Client, error) {
 	client.address = (*AddressService)(svc)
 	client.parcel = (*ParcelService)(svc)
 	client.shipment = (*ShipmentService)(svc)
+	client.rate = (*RateService)(svc)
 
 	return client, nil
 }
@@ -77,6 +80,10 @@ func (c *client) Parcel() *ParcelService {
 
 func (c *client) Shipment() *ShipmentService {
 	return c.shipment
+}
+
+func (c *client) Rate() *RateService {
+	return c.rate
 }
 
 func (c *client) NewRequest(ctx context.Context, method, url string, body interface{}) (*http.Request, error) {
