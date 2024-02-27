@@ -43,6 +43,7 @@ type client struct {
 	rate        *RateService
 	carrier     *CarrierService
 	transaction *TransactionService
+	tracking    *TrackingService
 }
 
 var defaultHTTPClient = &http.Client{Timeout: time.Second * 5}
@@ -71,6 +72,8 @@ func NewClient(token string, options ...ClientOption) (Client, error) {
 	client.shipment = (*ShipmentService)(svc)
 	client.rate = (*RateService)(svc)
 	client.carrier = (*CarrierService)(svc)
+	client.transaction = (*TransactionService)(svc)
+	client.tracking = (*TrackingService)(svc)
 	return client, nil
 }
 
@@ -96,6 +99,10 @@ func (c *client) Carrier() *CarrierService {
 
 func (c *client) Transaction() *TransactionService {
 	return c.transaction
+}
+
+func (c *client) Tracking() *TrackingService {
+	return c.tracking
 }
 
 func (c *client) NewRequest(ctx context.Context, method, url string, body interface{}) (*http.Request, error) {
