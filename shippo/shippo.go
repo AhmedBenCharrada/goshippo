@@ -25,6 +25,7 @@ type Client interface {
 	Shipment() *ShipmentService
 	Rate() *RateService
 	Carrier() *CarrierService
+	Transaction() *TransactionService
 }
 
 type service struct {
@@ -36,11 +37,12 @@ type client struct {
 	baseURL *url.URL
 	token   string
 
-	address  *AddressService
-	parcel   *ParcelService
-	shipment *ShipmentService
-	rate     *RateService
-	carrier  *CarrierService
+	address     *AddressService
+	parcel      *ParcelService
+	shipment    *ShipmentService
+	rate        *RateService
+	carrier     *CarrierService
+	transaction *TransactionService
 }
 
 var defaultHTTPClient = &http.Client{Timeout: time.Second * 5}
@@ -90,6 +92,10 @@ func (c *client) Rate() *RateService {
 
 func (c *client) Carrier() *CarrierService {
 	return c.carrier
+}
+
+func (c *client) Transaction() *TransactionService {
+	return c.transaction
 }
 
 func (c *client) NewRequest(ctx context.Context, method, url string, body interface{}) (*http.Request, error) {
