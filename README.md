@@ -15,3 +15,7 @@ To install the GoShippo Go SDK, you can use go get:
 ```bash
 go get github.com/AhmedBenCharrada/goshippo
 ```
+
+## Examples
+
+See [examples](./example/main.go) file.
