@@ -3,8 +3,9 @@ package main
 import (
 	"context"
 	"fmt"
-	"goshippo/shippo"
 	"log"
+
+	"github.com/AhmedBenCharrada/goshippo/shippo"
 )
 
 func main() {
